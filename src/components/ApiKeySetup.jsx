@@ -70,11 +70,12 @@ export default function ApiKeySetup({ apiKey, setApiKey, rememberSession, setRem
       )}
 
       <p className="muted small">
-        Get a key at{' '}
+        A shared default key is preloaded, so the app works out of the box (free models only).
+        To use your own quota, paste your own key from{' '}
         <a href="https://openrouter.ai/keys" target="_blank" rel="noreferrer">
           openrouter.ai/keys
         </a>
-        . Reloading the tab wipes the key unless the session checkbox is ticked.
+        . A custom key lives in memory only — reloading wipes it unless the session checkbox is ticked.
       </p>
     </section>
   );

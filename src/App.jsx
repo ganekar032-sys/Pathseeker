@@ -12,11 +12,17 @@ const TABS = [
   { id: 'chat', label: '4 · Chat' }
 ];
 
+// Bundled shared key so first-time users can use the app immediately.
+// This is a client-side app, so the key is public by design — it has $0
+// credit and can only call free models. If it gets abused, set a spend
+// limit or regenerate it at openrouter.ai/keys.
+const DEFAULT_API_KEY = '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';
+
 export default function App() {
   // API key: in-memory by default; hydrated from sessionStorage only if the
   // user previously opted in via the "remember for this session" checkbox.
   const sessionKey = loadSessionApiKey();
-  const [apiKey, setApiKey] = useState(sessionKey);
+  const [apiKey, setApiKey] = useState(sessionKey || DEFAULT_API_KEY);
   const [rememberSession, setRememberSession] = useState(Boolean(sessionKey));
 
   // Chart data: hydrated from localStorage (survives reloads).
