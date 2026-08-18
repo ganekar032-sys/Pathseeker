@@ -47,6 +47,20 @@ const UPAGRAHAS = [
   'Upaketu', 'Kaala', 'Mrityu', 'Artha Prahara', 'Yama Ghantaka'
 ];
 
+// Bodies to discard — mathematical sphutas and secondary padas not used in
+// classical interpretation. These are skipped during parsing to save API tokens.
+// Retained: AL (Arudha Lagna) for Jaimini analysis.
+const DISCARD_BODIES = [
+  // Non-essential sphutas (mathematical points)
+  'Prana Sphuta', 'Deha Sphuta', 'Mrityu Sphuta', 'Sookshma TriSphuta',
+  'Tithi Sphuta', 'Yoga Sphuta (Sun-Moon)', 'Rahu Tithi Sphuta',
+  'Kshetra Sphuta', 'Beeja Sphuta', 'TriSphuta', 'ChatusSphuta', 'PanchaSphuta',
+  // Secondary Arudha Padas (keep only AL)
+  'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'UL',
+  // All Varnada Padas (rarely used in mainstream interpretation)
+  'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12'
+];
+
 function classifyBody(name) {
   if (name === 'Lagna') return 'lagna';
   if (GRAHAS.includes(name)) return 'grahas';
@@ -94,6 +108,9 @@ export function parseChart(text) {
     const karakaMatch = namePart.match(KARAKA_RE);
     const karaka = karakaMatch ? karakaMatch[1] : undefined;
     const name = namePart.replace(KARAKA_RE, '').trim();
+
+    // Skip discarded bodies (non-essential sphutas) to save API tokens
+    if (DISCARD_BODIES.includes(name)) continue;
 
     const entry = {
       longitude: `${m[2]} ${m[3]} ${m[4]}' ${m[5]}"`,
@@ -322,4 +339,3 @@ export function validateChartData(data) {
   }
   return warnings;
 }
-

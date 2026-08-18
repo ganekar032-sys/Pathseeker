@@ -10,7 +10,7 @@ const data = parseJHoraInput({
   space: {
     rasi: read('d1 chart copied example.txt'),
     d9: read('d9 chart copied example.txt'),
-    d10: read('d10 chart copied example')
+    d10: read('d10 chart copied example.txt')
   },
   time: {
     vimshottari: read('complete vimshottari mahadasha copied example.txt'),
