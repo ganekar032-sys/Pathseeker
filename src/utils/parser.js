@@ -47,18 +47,24 @@ const UPAGRAHAS = [
   'Upaketu', 'Kaala', 'Mrityu', 'Artha Prahara', 'Yama Ghantaka'
 ];
 
-// Bodies to discard — mathematical sphutas and secondary padas not used in
-// classical interpretation. These are skipped during parsing to save API tokens.
-// Retained: AL (Arudha Lagna) for Jaimini analysis.
+// Bodies to discard — everything except Lagna, 9 Grahas, AL, and Muntha.
+// These are skipped during parsing to save API tokens.
 const DISCARD_BODIES = [
   // Non-essential sphutas (mathematical points)
   'Prana Sphuta', 'Deha Sphuta', 'Mrityu Sphuta', 'Sookshma TriSphuta',
   'Tithi Sphuta', 'Yoga Sphuta (Sun-Moon)', 'Rahu Tithi Sphuta',
   'Kshetra Sphuta', 'Beeja Sphuta', 'TriSphuta', 'ChatusSphuta', 'PanchaSphuta',
+  'Kunda', 'Yoga Sphuta', 'Avayoga Sphuta',
   // Secondary Arudha Padas (keep only AL)
   'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'UL',
-  // All Varnada Padas (rarely used in mainstream interpretation)
-  'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12'
+  // All Varnada Padas
+  'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12',
+  // All Upagrahas
+  'Maandi', 'Gulika', 'Dhooma', 'Vyatipata', 'Parivesha', 'Indra Chapa',
+  'Upaketu', 'Kaala', 'Mrityu', 'Artha Prahara', 'Yama Ghantaka',
+  // All Special Lagnas
+  'Bhava Lagna', 'Hora Lagna', 'Ghati Lagna', 'Vighati Lagna',
+  'Varnada Lagna', 'Sree Lagna', 'Pranapada Lagna', 'Indu Lagna', 'Bhrigu Bindu'
 ];
 
 function classifyBody(name) {
