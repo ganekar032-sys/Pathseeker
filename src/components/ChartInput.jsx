@@ -231,6 +231,13 @@ export default function ChartInput({ initialRaw, onParsed, onCleared }) {
         saved to localStorage and survives reloads. Each chart gets its own labeled box because
         JHora's copied text doesn't name the chart internally.
       </p>
+      <p className="muted small">
+        📖 New to Jagannatha Hora? Follow the{' '}
+        <a href="/docs/jhora-instructions.pdf" target="_blank" rel="noreferrer">
+          step-by-step JHora instructions (PDF)
+        </a>{' '}
+        — how to copy chart positions, dasha tables and transits verbatim into the boxes below.
+      </p>
 
       {sections.map((s) => (
         <div key={s.id} className="accordion">

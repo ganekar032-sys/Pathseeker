@@ -86,6 +86,12 @@ export default function App() {
           never persisted beyond this session. Without a key, requests use this site's shared,
           rate-limited free pool. For research and personal study only.
         </p>
+        <p className="muted small">
+          📖{' '}
+          <a href="/docs/jhora-instructions.pdf" target="_blank" rel="noreferrer">
+            JHora usage instructions (PDF)
+          </a>
+        </p>
       </footer>
     </div>
   );
