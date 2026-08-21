@@ -91,6 +91,10 @@ export default function App() {
           <a href="/docs/jhora-instructions.pdf" target="_blank" rel="noreferrer">
             JHora usage instructions (PDF)
           </a>
+          {' · '}
+          <a href="https://www.vedicastrologer.org/jh/jh_full_install.zip" target="_blank" rel="noreferrer">
+            ⬇️ Download JHora free
+          </a>
         </p>
       </footer>
     </div>

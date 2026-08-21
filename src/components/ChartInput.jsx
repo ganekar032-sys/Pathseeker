@@ -237,6 +237,11 @@ export default function ChartInput({ initialRaw, onParsed, onCleared }) {
           step-by-step JHora instructions (PDF)
         </a>{' '}
         — how to copy chart positions, dasha tables and transits verbatim into the boxes below.
+        Don't have JHora yet?{' '}
+        <a href="https://www.vedicastrologer.org/jh/jh_full_install.zip" target="_blank" rel="noreferrer">
+          ⬇️ Download it free (≈102 MB zip)
+        </a>{' '}
+        from vedicastrologer.org.
       </p>
 
       {sections.map((s) => (
