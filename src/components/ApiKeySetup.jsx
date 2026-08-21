@@ -3,9 +3,11 @@ import { testApiKey } from '../utils/openrouter';
 import { saveSessionApiKey, clearSessionApiKey } from '../utils/storage';
 
 /**
- * Step 1 — Secure API key entry.
- * Key lives in React memory (lifted to App). Optional checkbox mirrors it to
- * sessionStorage only (cleared when the browser closes). Never localStorage.
+ * Step 1 — API access.
+ * Two modes: shared demo access (no key — requests go through this
+ * deployment's rate-limited /api proxy), or the user's own OpenRouter key,
+ * which lives in React memory (lifted to App) and is optionally mirrored to
+ * sessionStorage only. Never localStorage.
  */
 export default function ApiKeySetup({ apiKey, setApiKey, rememberSession, setRememberSession }) {
   const [status, setStatus] = useState(null); // { ok, message }
@@ -16,6 +18,7 @@ export default function ApiKeySetup({ apiKey, setApiKey, rememberSession, setRem
     setApiKey(value);
     setStatus(null);
     if (rememberSession && value) saveSessionApiKey(value);
+    if (!value) clearSessionApiKey();
   }
 
   function handleRememberToggle(e) {
@@ -26,43 +29,41 @@ export default function ApiKeySetup({ apiKey, setApiKey, rememberSession, setRem
   }
 
   async function handleTest() {
-    if (!apiKey) {
-      setStatus({ ok: false, message: 'Enter an API key first.' });
-      return;
-    }
     setTesting(true);
     setStatus(null);
-    const result = await testApiKey(apiKey);
+    const result = await testApiKey(apiKey); // empty key -> tests shared access
     setStatus(result);
     setTesting(false);
   }
 
   return (
     <section className="panel">
-      <h2>Step 1 — OpenRouter API Key</h2>
+      <h2>Step 1 — API Access</h2>
       <p className="muted">
-        Your key is held in memory only. It is never written to localStorage or cookies.
-        Optionally, it can be kept in <code>sessionStorage</code> until you close the browser.
+        <strong>No key needed to start:</strong> the app ships with shared demo access — a
+        rate-limited free-model pool served by this site (a handful of requests per hour per
+        visitor, with a shared daily cap). For heavier use or guaranteed availability, paste your
+        own OpenRouter key below.
       </p>
 
       <div className="field-row">
         <input
           type="password"
           className="text-input"
-          placeholder="sk-or-v1-…"
+          placeholder="Your own key: sk-or-v1-… (optional)"
           value={apiKey}
           onChange={handleKeyChange}
           autoComplete="off"
           spellCheck={false}
         />
         <button className="btn" onClick={handleTest} disabled={testing}>
-          {testing ? 'Testing…' : 'Test API Key'}
+          {testing ? 'Testing…' : apiKey ? 'Test API Key' : 'Test Shared Access'}
         </button>
       </div>
 
       <label className="checkbox-row">
         <input type="checkbox" checked={rememberSession} onChange={handleRememberToggle} />
-        Remember key for this session (sessionStorage — clears when the browser closes)
+        Remember my own key for this session (sessionStorage — clears when the browser closes)
       </label>
 
       {status && (
@@ -70,12 +71,11 @@ export default function ApiKeySetup({ apiKey, setApiKey, rememberSession, setRem
       )}
 
       <p className="muted small">
-        A shared default key is preloaded, so the app works out of the box (free models only).
-        To use your own quota, paste your own key from{' '}
+        An own key is held in memory only — never written to localStorage or cookies. Get one at{' '}
         <a href="https://openrouter.ai/keys" target="_blank" rel="noreferrer">
           openrouter.ai/keys
         </a>
-        . A custom key lives in memory only — reloading wipes it unless the session checkbox is ticked.
+        . Clearing the field switches back to shared access.
       </p>
     </section>
   );

@@ -12,24 +12,22 @@ const TABS = [
   { id: 'chat', label: '4 · Chat' }
 ];
 
-// Bundled shared key so first-time users can use the app immediately.
-// This is a client-side app, so the key is public by design — it has $0
-// credit and can only call free models. If it gets abused, set a spend
-// limit or regenerate it at openrouter.ai/keys.
-const DEFAULT_API_KEY = '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';
-
+// API access model: an empty key means "shared demo access" — chat requests
+// go through this deployment's rate-limited /api/chat proxy, which holds the
+// shared OpenRouter key server-side. Users can paste their own key in Setup
+// for direct browser -> OpenRouter calls (never persisted beyond the session).
 export default function App() {
   // API key: in-memory by default; hydrated from sessionStorage only if the
   // user previously opted in via the "remember for this session" checkbox.
   const sessionKey = loadSessionApiKey();
-  const [apiKey, setApiKey] = useState(sessionKey || DEFAULT_API_KEY);
+  const [apiKey, setApiKey] = useState(sessionKey || '');
   const [rememberSession, setRememberSession] = useState(Boolean(sessionKey));
 
   // Chart data: hydrated from localStorage (survives reloads).
   const [chartData, setChartData] = useState(() => loadChartData());
   const [initialRaw] = useState(() => loadRawInput());
 
-  const [tab, setTab] = useState(apiKey ? (chartData ? 'chat' : 'input') : 'setup');
+  const [tab, setTab] = useState(chartData ? 'chat' : 'input');
 
   return (
     <div className="app">
@@ -41,8 +39,8 @@ export default function App() {
           </p>
         </div>
         <div className="header-status">
-          <span className={`chip ${apiKey ? 'ok' : 'warn'}`}>
-            {apiKey ? 'Key loaded (memory)' : 'No API key'}
+          <span className={`chip ${apiKey ? 'ok' : ''}`}>
+            {apiKey ? 'Own API key (memory)' : 'Shared demo access'}
           </span>
           <span className={`chip ${chartData ? 'ok' : 'warn'}`}>
             {chartData ? 'Chart data loaded' : 'No chart data'}
@@ -84,8 +82,9 @@ export default function App() {
 
       <footer className="app-footer">
         <p className="muted small">
-          100% client-side. Chart data stays in your browser's localStorage; your API key is
-          never persisted beyond this session. For research and personal study only.
+          100% client-side. Chart data stays in your browser's localStorage; your own API key is
+          never persisted beyond this session. Without a key, requests use this site's shared,
+          rate-limited free pool. For research and personal study only.
         </p>
       </footer>
     </div>

@@ -30,14 +30,13 @@ export default function ChatPanel({ apiKey, chartData }) {
   async function handleSend() {
     const question = input.trim();
     if (!question || busy) return;
-    if (!apiKey) {
-      setError('No API key set. Go to the Setup tab first.');
-      return;
-    }
     if (!effectiveModel) {
       setError('Select a model (or enter a custom model ID).');
       return;
     }
+    // No apiKey means shared demo access: the request goes through this
+    // deployment's /api/chat proxy. Errors (rate limits, exhausted pool,
+    // non-free models) surface verbatim below so the user can react.
 
     setError(null);
     const nextMessages = [...messages, { role: 'user', content: question }];
@@ -119,6 +118,7 @@ export default function ChatPanel({ apiKey, chartData }) {
             Ask a question. The full chart data, classical Parasara/Jaimini guardrails and the
             zero-calculation rule are attached invisibly to every request.
             Only the last {MAX_HISTORY_PAIRS} exchanges are kept in context.
+            {!apiKey && ' You are on shared demo access (rate-limited free models) — paste your own key in Setup for unlimited use.'}
           </p>
         )}
         {messages.map((m, i) => (

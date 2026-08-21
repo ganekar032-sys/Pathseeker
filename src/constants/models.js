@@ -1,5 +1,8 @@
 // OpenRouter model IDs offered in the model selector dropdown.
 // The "custom" sentinel lets the user type any OpenRouter model ID.
+// NOTE: the first five IDs are also the shared-access allowlist enforced by
+// /api/_handler.js — keep the two lists in sync. Shared access serves these
+// known free-tier models only; custom IDs require the user's own key.
 
 export const MODEL_OPTIONS = [
   { id: 'openrouter/free', label: 'Free Models Router (default — no credits needed)' },
@@ -12,6 +15,6 @@ export const MODEL_OPTIONS = [
 
 export const DEFAULT_MODEL = 'openrouter/free';
 
-// Used only by the "Test API Key" validation call. Must be a free model so
-// the bundled $0-credit default key passes its own inference check.
+// Used only when validating a user's OWN key ("Test API Key" does a tiny
+// completion). Must be a free model so a $0-credit key passes the check.
 export const TEST_MODEL = 'openrouter/free';
