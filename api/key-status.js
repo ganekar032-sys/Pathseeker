@@ -3,7 +3,6 @@
 // free pool remains — without exposing the key and without burning quota.
 
 import { handleKeyStatus } from './_handler.js';
+import { nodeHandler } from './_nodeAdapter.js';
 
-export default function handler(request) {
-  return handleKeyStatus(request);
-}
+export default nodeHandler(handleKeyStatus);

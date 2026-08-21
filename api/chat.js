@@ -3,10 +3,9 @@
 // See _handler.js for validation, model allowlist and rate limiting.
 
 import { handleChat } from './_handler.js';
+import { nodeHandler } from './_nodeAdapter.js';
 
 // Long LLM generations need more than the default 10s window.
 export const maxDuration = 60;
 
-export default function handler(request) {
-  return handleChat(request);
-}
+export default nodeHandler(handleChat);
